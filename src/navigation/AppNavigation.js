@@ -23,16 +23,8 @@ export const AppNavigation = () => {
             Platform.OS === "android" ? "#fff" : THEME.MAIN_COLOR,
         }}
       >
-        <Stack.Screen
-          name="MainScreen"
-          component={MainScreen}
-          options={{ title: "My blog" }}
-        />
-        <Stack.Screen
-          name="PostScreen"
-          component={PostScreen}
-          options={{ title: "Post" }}
-        />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="PostScreen" component={PostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

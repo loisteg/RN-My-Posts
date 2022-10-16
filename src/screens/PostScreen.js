@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -8,6 +8,9 @@ import {
   Button,
   Alert,
 } from "react-native";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+
+import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { DATA } from "../data";
 import { THEME } from "../theme";
 
@@ -16,8 +19,19 @@ export const PostScreen = ({ navigation: { setOptions }, route }) => {
   const post = DATA.find((p) => p.id === postId);
 
   useEffect(() => {
+    const iconName = post.booked ? "ios-star" : "ios-star-outline";
+
     setOptions({
       title: `Post from ${new Date(post.date).toLocaleDateString()}`,
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+          <Item
+            title="Add photo"
+            iconName={iconName}
+            onPress={() => console.log("Bookmarked")}
+          />
+        </HeaderButtons>
+      ),
     });
   }, []);
 
