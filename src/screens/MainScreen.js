@@ -1,18 +1,26 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, Button, FlatList, StyleSheet } from "react-native";
+import { Post } from "../components/Post";
+import { DATA } from "../data";
 
-export const MainScreen = ({}) => {
+export const MainScreen = ({ navigation: { navigate } }) => {
+  const openPostHandler = (post) => {
+    navigate("PostScreen", { postId: post.id });
+  };
+
   return (
-    <View style={styles.center}>
-      <Text>MainScreen</Text>
+    <View style={styles.container}>
+      <FlatList
+        data={DATA}
+        keyExtractor={(post) => post.id.toString()}
+        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
+      />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  center: {
+  container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-})
+    padding: 10,
+  },
+});
