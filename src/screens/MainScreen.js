@@ -9,7 +9,7 @@ import { DATA } from "../data";
 export const MainScreen = ({ navigation: { navigate, setOptions } }) => {
   useEffect(() => {
     setOptions({
-      headerTitle: "My blog",
+      title: "My blog",
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
           <Item
