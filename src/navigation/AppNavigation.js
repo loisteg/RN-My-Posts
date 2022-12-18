@@ -2,6 +2,7 @@ import { Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
 
 import { MainScreen } from "../screens/MainScreen";
 import { BookedScreen } from "../screens/BookedScreen";
@@ -20,7 +21,7 @@ const stylesForBottomTabs = {
 const AppStack = createNativeStackNavigator();
 const PostStack = createNativeStackNavigator();
 const BookedStack = createNativeStackNavigator();
-const BottomMenu = createBottomTabNavigator();
+const BottomMenu = Platform.OS === 'ios' ? createBottomTabNavigator() : createMaterialBottomTabNavigator();
 
 const PostNavigator = () => {
   return (
@@ -46,9 +47,10 @@ const BookedNavigator = () => {
   );
 };
 
-const BottomNavigator = () => {
+const BottomNavigatorOptions = ({Component, children}) => {
   return (
-    <BottomMenu.Navigator
+    Platform.OS === 'ios' ? 
+    (<Component
       initialRouteName="Posts"
       screenOptions={{ headerShown: false }}
       tabBarOptions={{
@@ -56,10 +58,32 @@ const BottomNavigator = () => {
         activeTintColor: THEME.MAIN_COLOR,
       }}
     >
+      {children}
+    </Component>
+  ) : 
+  (
+    <Component
+      initialRouteName="Posts"
+      screenOptions={{ headerShown: false }}
+      shifting="true"
+      barStyle ={{backgroundColor: THEME.MAIN_COLOR}}
+    >
+      {children}
+    </Component>
+  )
+  )
+}
+
+const BottomNavigator = () => {
+  return (
+    <BottomNavigatorOptions
+      Component={BottomMenu.Navigator}
+    >
       <BottomMenu.Screen
         name="Posts"
         component={PostNavigator}
         options={{
+          tabBarLabel: 'All',
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="ios-albums"
@@ -73,6 +97,7 @@ const BottomNavigator = () => {
         name="Booked"
         component={BookedNavigator}
         options={{
+          tabBarLabel: 'Booked',
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="ios-star"
@@ -82,7 +107,7 @@ const BottomNavigator = () => {
           ),
         }}
       />
-    </BottomMenu.Navigator>
+    </BottomNavigatorOptions>
   );
 };
 

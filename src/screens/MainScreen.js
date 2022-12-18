@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { AppHeaderIcon } from "../components/AppHeaderIcon";
-import { Post } from "../components/Post";
+import { PostList } from "../components/PostList";
 import { DATA } from "../data";
 
 export const MainScreen = ({ navigation: { navigate, setOptions } }) => {
@@ -35,20 +34,5 @@ export const MainScreen = ({ navigation: { navigate, setOptions } }) => {
     navigate("PostScreen", { postId: post.id });
   };
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={DATA}
-        keyExtractor={(post) => post.id.toString()}
-        renderItem={({ item }) => <Post post={item} onOpen={openPostHandler} />}
-      />
-    </View>
-  );
+  return <PostList data={DATA} onOpen={openPostHandler} />
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-});
