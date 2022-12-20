@@ -5,33 +5,20 @@ import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { PostList } from "../components/PostList";
 import { DATA } from "../data";
 
-export const MainScreen = ({ navigation: { navigate, setOptions } }) => {
+import { header } from "../helpers/header";
+
+export const MainScreen = ({ navigation: {navigate, setOptions, toggleDrawer} }) => {
   useEffect(() => {
-    setOptions({
-      title: "My blog",
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-          <Item
-            title="Add photo"
-            iconName="ios-camera"
-            onPress={() => console.log("Press photo")}
-          />
-        </HeaderButtons>
-      ),
-      headerLeft: () => (
-        <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-          <Item
-            title="Toggle Drawer"
-            iconName="ios-menu"
-            onPress={() => console.log("Press drawer")}
-          />
-        </HeaderButtons>
-      ),
-    });
+    setOptions(
+      header(
+        {title: 'My blog', 
+        photo: {onPress: () => navigate('CreateScreen')},
+        drawer: {onPress: toggleDrawer}
+      }));
   }, []);
 
   const openPostHandler = (post) => {
-    navigate("PostScreen", { postId: post.id });
+    navigate('PostScreen', { postId: post.id });
   };
 
   return <PostList data={DATA} onOpen={openPostHandler} />

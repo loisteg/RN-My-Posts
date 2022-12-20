@@ -8,11 +8,11 @@ import {
   Button,
   Alert,
 } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { DATA } from "../data";
 import { THEME } from "../theme";
+
+import { header } from "../helpers/header";
 
 export const PostScreen = ({ navigation: { setOptions }, route }) => {
   const postId = route.params?.postId;
@@ -21,18 +21,11 @@ export const PostScreen = ({ navigation: { setOptions }, route }) => {
   useEffect(() => {
     const iconName = post.booked ? "ios-star" : "ios-star-outline";
 
-    setOptions({
-      title: `Post from ${new Date(post.date).toLocaleDateString()}`,
-      headerRight: () => (
-        <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-          <Item
-            title="Add photo"
-            iconName={iconName}
-            onPress={() => console.log("Bookmarked")}
-          />
-        </HeaderButtons>
-      ),
-    });
+    setOptions(
+      header({
+        title: `Post from ${new Date(post.date).toLocaleDateString()}`,
+        bookmarked: {iconName, onPress: () => console.log("Bookmarked")}
+      }));
   }, []);
 
   const removeHandler = () => {

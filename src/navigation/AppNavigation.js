@@ -2,11 +2,14 @@ import { Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer"
 
 import { MainScreen } from "../screens/MainScreen";
 import { BookedScreen } from "../screens/BookedScreen";
 import { PostScreen } from "../screens/PostScreen";
+import { AboutScreen } from '../screens/AboutScreen';
+import { CreateScreen } from '../screens/CreateScreen';
 
 import { Ionicons } from "@expo/vector-icons";
 import { THEME } from "../theme";
@@ -22,6 +25,7 @@ const AppStack = createNativeStackNavigator();
 const PostStack = createNativeStackNavigator();
 const BookedStack = createNativeStackNavigator();
 const BottomMenu = Platform.OS === 'ios' ? createBottomTabNavigator() : createMaterialBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const PostNavigator = () => {
   return (
@@ -111,14 +115,27 @@ const BottomNavigator = () => {
   );
 };
 
+const MainNavigator = () => {
+  return (
+    <Drawer.Navigator
+      initialRouteName="BottomNavigator"
+      screenOptions={{ headerShown: false }}
+    >
+      <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
+      <Drawer.Screen name="AboutScreen" component={AboutScreen} />
+      <Drawer.Screen name="CreateScreen" component={CreateScreen} />
+    </Drawer.Navigator>
+  )
+}
+
 export const AppNavigation = () => {
   return (
     <NavigationContainer>
       <AppStack.Navigator
-        initialRouteName="BottomNavigator"
+        initialRouteName="MainNavigator"
         screenOptions={{ headerShown: false }}
       >
-        <AppStack.Screen name="BottomNavigator" component={BottomNavigator} />
+        <AppStack.Screen name="MainNavigator" component={MainNavigator} />
       </AppStack.Navigator>
     </NavigationContainer>
   );

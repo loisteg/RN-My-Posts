@@ -1,25 +1,18 @@
 import { useEffect } from "react";
 
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { PostList } from "../components/PostList";
 import { DATA } from "../data";
 
+import { header } from "../helpers/header";
 
-export const BookedScreen = ({ navigation: { navigate, setOptions } }) => {
+
+export const BookedScreen = ({ navigation: { navigate, setOptions, toggleDrawer } }) => {
   useEffect(() => {
-    setOptions({
-      title: "Bookmarked",
-      headerLeft: () => (
-        <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
-          <Item
-            title="Toggle Drawer"
-            iconName="ios-menu"
-            onPress={() => console.log("Press drawer")}
-          />
-        </HeaderButtons>
-      ),
-    });
+    setOptions(
+      header(
+        {title: 'Bookmarked',
+        drawer: {onPress: toggleDrawer}
+      }))
   }, []);
 
   const openPostHandler = (post) => {
