@@ -56,10 +56,10 @@ const BottomNavigatorOptions = ({Component, children}) => {
     Platform.OS === 'ios' ? 
     (<Component
       initialRouteName="Posts"
-      screenOptions={{ headerShown: false }}
-      tabBarOptions={{
-        inactiveTintColor: THEME.GREY_COLOR,
-        activeTintColor: THEME.MAIN_COLOR,
+      screenOptions={{ 
+        headerShown: false, 
+        tabBarInactiveTintColor: THEME.GREY_COLOR,
+        tabBarActiveTintColor: THEME.MAIN_COLOR
       }}
     >
       {children}
@@ -115,15 +115,24 @@ const BottomNavigator = () => {
   );
 };
 
+
+// In options for screen 'drawerLabel' can be replaced by 'title'
 const MainNavigator = () => {
   return (
     <Drawer.Navigator
       initialRouteName="BottomNavigator"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ 
+        drawerActiveTintColor: THEME.MAIN_COLOR,
+        drawerInctiveTintColor: THEME.GREY_COLOR,
+        drawerLabelStyle: {
+          fontFamily: 'montserrat-bold'
+        },
+        ...stylesForBottomTabs
+      }}
     >
-      <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-      <Drawer.Screen name="AboutScreen" component={AboutScreen} />
-      <Drawer.Screen name="CreateScreen" component={CreateScreen} />
+      <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{drawerLabel: "Main screen", headerShown: false}}/>
+      <Drawer.Screen name="AboutScreen" component={AboutScreen} options={{drawerLabel: "About app"}}/>
+      <Drawer.Screen name="CreateScreen" component={CreateScreen} options={{drawerLabel: "Create post"}}/>
     </Drawer.Navigator>
   )
 }

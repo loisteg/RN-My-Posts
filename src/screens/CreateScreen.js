@@ -1,7 +1,17 @@
-import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { useEffect } from 'react'
+import { View, Text, StyleSheet } from 'react-native';
 
-export const CreateScreen = ({}) => {
+import { header } from '../helpers/header';
+
+export const CreateScreen = ({navigation: {setOptions, toggleDrawer}}) => {
+  useEffect(() => {
+    setOptions(
+      header(
+        {title: 'Create post', 
+        drawer: {onPress: toggleDrawer}
+      }));
+  }, []);
+
   return (
     <View style={styles.center}>
       <Text>CreateScreen</Text>
