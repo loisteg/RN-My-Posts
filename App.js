@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
+
+import { Provider } from "react-redux";
+import store from './src/store';
 
 import { bootstrap } from "./src/bootstrap";
 import { AppNavigation } from "./src/navigation/AppNavigation";
@@ -26,7 +29,9 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <AppNavigation />
+      <Provider store={store}>
+        <AppNavigation />
+      </Provider>
     </View>
   );
 }

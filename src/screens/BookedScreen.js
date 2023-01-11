@@ -1,12 +1,13 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 import { PostList } from "../components/PostList";
-import { DATA } from "../data";
 
 import { header } from "../helpers/header";
 
-
 export const BookedScreen = ({ navigation: { navigate, setOptions, toggleDrawer } }) => {
+  const bookedPosts = useSelector(state => state.post.bookedPosts);
+
   useEffect(() => {
     setOptions(
       header(
@@ -16,10 +17,8 @@ export const BookedScreen = ({ navigation: { navigate, setOptions, toggleDrawer 
   }, []);
 
   const openPostHandler = (post) => {
-    navigate("PostScreen", { postId: post.id });
+    navigate('PostScreen', { postId: post.id, screenFrom: 'BookedScreen' });
   };
 
-  const data = DATA.filter(item => item.booked);
-
-  return <PostList data={data} onOpen={openPostHandler} />
+  return <PostList data={bookedPosts} onOpen={openPostHandler} />
 };

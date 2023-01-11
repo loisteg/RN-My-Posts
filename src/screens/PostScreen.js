@@ -8,25 +8,29 @@ import {
   Button,
   Alert,
 } from "react-native";
-
-import { DATA } from "../data";
-import { THEME } from "../theme";
+import { useDispatch, useSelector } from "react-redux";
 
 import { header } from "../helpers/header";
+import { toogleBooked, deletePost } from "../store/actions/post";
 
-export const PostScreen = ({ navigation: { setOptions }, route }) => {
-  const postId = route.params?.postId;
-  const post = DATA.find((p) => p.id === postId);
+import { THEME } from "../theme";
+
+export const PostScreen = ({ navigation: { setOptions, navigate }, route }) => {
+  const {postId, screenFrom} = route?.params;
+  const post = useSelector(state => state.post.allPosts.find(p => p.id === postId));
+  const dispatch = useDispatch();
+
+  const booked = useSelector(state => state.post.bookedPosts.some(post => post.id === postId));
 
   useEffect(() => {
-    const iconName = post.booked ? "ios-star" : "ios-star-outline";
+    const iconName = booked ? "ios-star" : "ios-star-outline";
 
     setOptions(
       header({
         title: `Post from ${new Date(post.date).toLocaleDateString()}`,
-        bookmarked: {iconName, onPress: () => console.log("Bookmarked")}
+        bookmarked: {iconName, onPress: () => dispatch(toogleBooked(post))}
       }));
-  }, []);
+  }, [post, booked]);
 
   const removeHandler = () => {
     Alert.alert(
@@ -40,7 +44,10 @@ export const PostScreen = ({ navigation: { setOptions }, route }) => {
         {
           text: "Yes",
           style: "destructive",
-          onPress: () => console.log("Yes"),
+          onPress: () => {
+            navigate(screenFrom);
+            dispatch(deletePost(postId));
+          },
         },
       ],
       { cancelable: false }
